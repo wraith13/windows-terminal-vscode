@@ -14,7 +14,9 @@
 		"onCommand:extension.helloWorld"
 	],
 	"main": "./out/extension.js",
-	"os": ["win32"],
+	"os": [
+		"win32"
+	],
 	"contributes": {
 		"commands": [
 			{
