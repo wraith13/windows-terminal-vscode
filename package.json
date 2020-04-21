@@ -1,6 +1,6 @@
 {
 	"name": "windows-terminal",
-	"displayName": "Windows Terminal",
+	"displayName": "Windows Terminal Utility",
 	"description": "Windows Terminal Utility for VS Code.",
 	"version": "0.0.1",
 	"license": "SEE LICENSE IN LICENSE_1_0.txt",
