@@ -12,7 +12,8 @@
     ],
     "activationEvents": [
         "onCommand:windowsTerminal.showStore",
-        "onCommand:windowsTerminal.open"
+        "onCommand:windowsTerminal.open",
+        "onCommand:windowsTerminal.openSettings"
     ],
     "main": "./out/extension.js",
     "os": [
@@ -28,6 +29,11 @@
             {
                 "command": "windowsTerminal.open",
                 "title": "Open",
+                "category": "Windows Terminal"
+            },
+            {
+                "command": "windowsTerminal.openSettings",
+                "title": "Open settings.json",
                 "category": "Windows Terminal"
             }
         ]
