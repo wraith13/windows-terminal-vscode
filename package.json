@@ -13,6 +13,7 @@
     "activationEvents": [
         "onCommand:windowsTerminal.showStore",
         "onCommand:windowsTerminal.open",
+        "onCommand:windowsTerminal.openProfile",
         "onCommand:windowsTerminal.openSettings"
     ],
     "main": "./out/extension.js",
@@ -29,6 +30,11 @@
             {
                 "command": "windowsTerminal.open",
                 "title": "Open",
+                "category": "Windows Terminal"
+            },
+            {
+                "command": "windowsTerminal.openProfile",
+                "title": "Open with Profile",
                 "category": "Windows Terminal"
             },
             {
