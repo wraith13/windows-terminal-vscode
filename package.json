@@ -42,6 +42,28 @@
                 "title": "Open settings.json",
                 "category": "Windows Terminal"
             }
+        ],
+        "configuration": [
+            {
+                "title": "Windows Terminal",
+                "properties": {
+                    "windowsTerminal.settingsJsonPath": {
+                        "type": "string",
+                        "default": null,
+                        "description": "%windowsTerminal.settingsJsonPath.description%"
+                    },
+                    "windowsTerminal.defaultProfile": {
+                        "type": "string",
+                        "default": null,
+                        "description": "%windowsTerminal.defaultProfile.description%"
+                    },
+                    "windowsTerminal.defaultDirectory": {
+                        "type": "string",
+                        "default": null,
+                        "description": "%windowsTerminal.defaultDirectory.description%"
+                    }
+                }
+            }
         ]
     },
     "scripts": {
