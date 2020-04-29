@@ -16,7 +16,7 @@
         "onCommand:windowsTerminal.openProfile",
         "onCommand:windowsTerminal.openSettings"
     ],
-    "main": "./out/extension.js",
+    "main": "./out/source/extension.js",
     "os": [
         "win32"
     ],
