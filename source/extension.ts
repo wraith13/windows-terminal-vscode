@@ -47,45 +47,51 @@ export const getSettingJsonDocument = async () => await vscode.workspace.openTex
 (
     getSettingJsonPath()
 );
-export const activate = (context: vscode.ExtensionContext) =>
-{
-    context.subscriptions.push
+export const activate = (context: vscode.ExtensionContext) => context.subscriptions.push
+(
+    vscode.commands.registerCommand
     (
-        vscode.commands.registerCommand
+        'windowsTerminal.showStore',
+        async () => await vscode.env.openExternal(getStoreUri())
+    ),
+    vscode.commands.registerCommand
+    (
+        'windowsTerminal.open',
+        () => child_process.exec(`wt -d ${getCurrentFolder()}`)
+    ),
+    vscode.commands.registerCommand
+    (
+        'windowsTerminal.openProfile',
+        async () =>
         (
-            'windowsTerminal.showStore',
-            async () => await vscode.env.openExternal(getStoreUri())
-        ),
-        vscode.commands.registerCommand
-        (
-            'windowsTerminal.open',
-            () => child_process.exec(`wt -d ${getCurrentFolder()}`)
-        ),
-        vscode.commands.registerCommand
-        (
-            'windowsTerminal.openProfile',
-            async () =>
+            await vscode.window.showQuickPick
             (
-                await vscode.window.showQuickPick
                 (
-                    (<SettingsJson>JSON.parse((await getSettingJsonDocument()).getText()))
-                    .profiles.list.map
+                    <SettingsJson>JSON.parse
                     (
-                        p =>
-                        ({
-                            label: p.name,
-                            command: () => child_process.exec(`wt -d ${getCurrentFolder()} -p ${p.guid}`)
-                        })
+                        (
+                            await getSettingJsonDocument()
+                        )
+                        .getText()
+                        .replace(/^\s*(\/\/.*)$/gm, "")
                     )
                 )
-            )?.command()
-        ),
-        vscode.commands.registerCommand
-        (
-            'windowsTerminal.openSettings',
-            async () => await vscode.window.showTextDocument(await getSettingJsonDocument())
-        )
-    );
-};
+                .profiles.list.map
+                (
+                    p =>
+                    ({
+                        label: p.name,
+                        command: () => child_process.exec(`wt -d ${getCurrentFolder()} -p ${p.guid}`)
+                    })
+                )
+            )
+        )?.command()
+    ),
+    vscode.commands.registerCommand
+    (
+        'windowsTerminal.openSettings',
+        async () => await vscode.window.showTextDocument(await getSettingJsonDocument())
+    )
+);
 
 export const deactivate = ( ) => { };
