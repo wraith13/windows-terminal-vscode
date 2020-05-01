@@ -11,10 +11,7 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:windowsTerminal.showStore",
-        "onCommand:windowsTerminal.open",
-        "onCommand:windowsTerminal.openProfile",
-        "onCommand:windowsTerminal.openSettings"
+        "*"
     ],
     "main": "./out/source/extension.js",
     "os": [

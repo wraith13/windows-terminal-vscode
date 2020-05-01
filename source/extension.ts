@@ -2,11 +2,9 @@ import * as vscode from 'vscode' ;
 import * as process from 'process' ;
 import * as child_process from 'child_process' ;
 import * as Config from "./library/config" ;
-
 export const settingsJsonPath = new Config . Entry < string > ( "windowsTerminal.settingsJsonPath" ) ;
 export const defaultProfile = new Config . Entry < string > ( "windowsTerminal.defaultProfile" ) ;
 export const defaultDirectory = new Config . Entry < string > ( "windowsTerminal.defaultDirectory" ) ;
-
 interface SettingsJson
 {
     "$schema" : string ;
@@ -41,7 +39,6 @@ interface SettingsJsonKeybindingCommand
     split : string ;
     splitMode : string ;
 }
-
 export const getStoreUri = ( ) => vscode.Uri.parse ( "https://www.microsoft.com/ja-jp/p/windows-terminal-preview/9n0dx20hk701" ) ;
 export const getSettingJsonPath = async ( ) =>
 {
@@ -52,14 +49,34 @@ export const getSettingJsonPath = async ( ) =>
     }
     return `${ process . env [ "USERPROFILE" ] }\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json` ;
 } ;
-export const getCurrentFolder = ( ) =>
-    vscode . workspace . workspaceFolders && 0 < vscode . workspace . workspaceFolders . length ?
+export const getCurrentFolder = ( ) : string =>
+    vscode . workspace . workspaceFolders &&
+    0 < vscode . workspace . workspaceFolders . length ?
         vscode . workspace . workspaceFolders [ 0 ] . uri . fsPath :
         "." ;
 export const getSettingJsonDocument = async ( ) => await vscode . workspace . openTextDocument
 (
     await getSettingJsonPath ( )
 ) ;
+export const makeDirectoryParam = (directory : string | null) => directory ? ` -d ${ directory }` : "";
+export const makeProfileParam = (profile : string | null) => profile ? ` -p ${ profile }` : "";
+export const executeWindowsTerminal =
+(
+    data :
+    {
+        directory ? : string ,
+        profile ? : string ,
+    }
+    = { }
+) => child_process . exec
+(
+    [
+        "wt" ,
+        makeDirectoryParam ( data . directory ?? defaultDirectory.get("") ?? getCurrentFolder ( ) ) ,
+        makeProfileParam ( data . profile ?? defaultDirectory.get("") ) ,
+    ]
+    .join("")
+);
 export const activate = ( context : vscode . ExtensionContext ) => context . subscriptions . push
 (
     vscode . commands . registerCommand
@@ -70,7 +87,7 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
     vscode . commands . registerCommand
     (
         'windowsTerminal.open',
-        ( ) => child_process . exec ( `wt -d ${ getCurrentFolder ( ) }` )
+        ( ) => executeWindowsTerminal ( )
     ) ,
     vscode . commands . registerCommand
     (
@@ -94,7 +111,7 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
                     p =>
                     ({
                         label : p . name ,
-                        command : ( ) => child_process . exec ( `wt -d ${ getCurrentFolder ( ) } -p ${ p . guid }` )
+                        command : ( ) => executeWindowsTerminal ({ profile : p . guid }) ,
                     })
                 )
             )
@@ -106,5 +123,4 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
         async ( ) => await vscode . window . showTextDocument ( await getSettingJsonDocument ( ) )
     )
 ) ;
-
 export const deactivate = ( ) => { } ;
