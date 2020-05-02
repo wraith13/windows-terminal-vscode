@@ -58,8 +58,8 @@ export const getSettingJsonDocument = async ( ) => await vscode . workspace . op
 (
     await getSettingJsonPath ( )
 ) ;
-export const makeDirectoryParam = (directory : string | null) => directory ? ` -d ${ directory }` : "";
-export const makeProfileParam = (profile : string | null) => profile ? ` -p ${ profile }` : "";
+export const makeDirectoryParam = ( directory : string | null ) => directory ? ` -d ${ directory }` : "" ;
+export const makeProfileParam = ( profile : string | null ) => profile ? ` -p ${ profile }` : "" ;
 export const executeWindowsTerminal =
 (
     data :
@@ -72,11 +72,15 @@ export const executeWindowsTerminal =
 (
     [
         "wt" ,
-        makeDirectoryParam ( data . directory ?? defaultDirectory.get("") ?? getCurrentFolder ( ) ) ,
-        makeProfileParam ( data . profile ?? defaultDirectory.get("") ) ,
+        makeDirectoryParam ( data . directory ?? defaultDirectory . get ( "" ) ?? getCurrentFolder ( ) ) ,
+        makeProfileParam ( data . profile ?? defaultDirectory . get ( "" ) ) ,
     ]
     .join("")
 );
+export const registerSettingsJsonUri = ( _Uri : vscode . Uri ) =>
+{
+
+};
 export const activate = ( context : vscode . ExtensionContext ) => context . subscriptions . push
 (
     vscode . commands . registerCommand
@@ -86,7 +90,7 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
     ) ,
     vscode . commands . registerCommand
     (
-        'windowsTerminal.open',
+        'windowsTerminal.open' ,
         ( ) => executeWindowsTerminal ( )
     ) ,
     vscode . commands . registerCommand
@@ -121,6 +125,52 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
     (
         'windowsTerminal.openSettings' ,
         async ( ) => await vscode . window . showTextDocument ( await getSettingJsonDocument ( ) )
+    ),
+    vscode . commands . registerCommand
+    (
+        'windowsTerminal.registerSettings' ,
+        async ( ) => await
+        (
+            await vscode . window . showQuickPick
+            (
+                [
+                    {
+                        label : "Register this document as Windows Terminal's settings.json" ,
+                        command : async ( ) =>
+                        {
+                            const document = vscode . window . activeTextEditor ?. document;
+                            if ( document )
+                            {
+                                registerSettingsJsonUri ( document . uri ) ;
+                            }
+                        } ,
+                        when : !! vscode . window . activeTextEditor ?. document ,
+                    },
+                    {
+                        label : "Register select document as Windows Terminal's settings.json" ,
+                        command : async ( ) =>
+                        {
+                            const selectFiles = await vscode.window.showOpenDialog
+                            ({
+                                defaultUri : vscode . Uri .parse ( `${ process . env [ "USERPROFILE" ] }\\AppData\\Local\\Packages` ),
+                                openLabel : "Select Windows Terminal's settings.json",
+                                canSelectMany: false,
+                                filters :
+                                {
+                                    "JSON" : [ "json" ],
+                                }
+                            }) ;
+                            if ( selectFiles && 0 < selectFiles . length )
+                            {
+                                registerSettingsJsonUri ( selectFiles [ 0 ] ) ;
+                            }
+                        } ,
+                        when : true
+                    },
+                ]
+                .filter ( i => i . when )
+            )
+        ) ?. command ( )
     )
 ) ;
 export const deactivate = ( ) => { } ;
