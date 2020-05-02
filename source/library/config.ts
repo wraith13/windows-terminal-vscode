@@ -43,6 +43,8 @@ export class Entry<valueT>
         }
         return result;
     };
+    getApplicationKey = ( ) => this . key . replace ( /\..*/ , "" ) ;
+    getSection = ( ) => this . key . replace ( /[^.]+\./ , "" ) ;
     cache = new Cache
     (
         (languageId: string): valueT =>
@@ -50,9 +52,7 @@ export class Entry<valueT>
             let result: valueT;
             if (undefined === languageId || null === languageId || 0 === languageId.length)
             {
-                const applicationKey = this.key.replace(/\..*/, "");
-                const name = this.key.replace(/[^.]+\./, "");
-                result = <valueT>vscode.workspace.getConfiguration(applicationKey)[name];
+                result = < valueT > vscode . workspace . getConfiguration ( this . getApplicationKey ( ) ) [ this . getSection ( ) ] ;
                 if (undefined === result)
                 {
                     result = this.defaultValue;
@@ -78,6 +78,11 @@ export class Entry<valueT>
             return result;
         }
     );
+    public set = async ( value : valueT , configurationTarget ? : vscode . ConfigurationTarget | boolean ) =>
+    {
+        await vscode . workspace . getConfiguration ( this . getApplicationKey ( ) ) .update ( this . getSection ( ) , value , configurationTarget ) ;
+        this . clear ( ) ;
+    };
     public get = this.cache.get;
     public getCache = this.cache.getCache;
     public clear = this.cache.clear;
