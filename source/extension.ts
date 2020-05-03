@@ -77,10 +77,7 @@ export const executeWindowsTerminal =
     ]
     .join("")
 );
-export const registerSettingsJsonUri = ( _Uri : vscode . Uri ) =>
-{
-
-};
+export const registerSettingsJsonUri = async ( uri : vscode . Uri ) => await settingsJsonPath . set ( uri . fsPath ) ;
 export const activate = ( context : vscode . ExtensionContext ) => context . subscriptions . push
 (
     vscode . commands . registerCommand
