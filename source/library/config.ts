@@ -86,6 +86,18 @@ export class Entry<valueT>
     public get = this.cache.get;
     public getCache = this.cache.getCache;
     public clear = this.cache.clear;
+    public onDidChangeConfiguration =
+    (
+        affectsConfiguration : (section : string , scope ? : vscode . ConfigurationScope ) => boolean
+    ) =>
+    {
+        const result = affectsConfiguration ( this . key ) ;
+        if ( result )
+        {
+            this . clear ( ) ;
+        }
+        return result ;
+    } ;
 }
 export class MapEntry<ObjectT>
 {
@@ -97,10 +109,11 @@ export class MapEntry<ObjectT>
     {
     }
     config = new Entry<keyof ObjectT>(this.key, makeEnumValidator(this.mapObject));
-    public set = async ( value : keyof ObjectT , configurationTarget ? : vscode . ConfigurationTarget | boolean ) => this.config.set(value, configurationTarget);
+    public set = this . config . set ;
     public get = (languageId: string) => this.mapObject[this.config.cache.get(languageId)];
     public getCache = (languageId: string) => this.mapObject[this.config.cache.getCache(languageId)];
     public clear = this.config.cache.clear;
+    public onDidChangeConfiguration = this .config . onDidChangeConfiguration ;
 }
 export const makeEnumValidator = <ObjectT>(mapObject: ObjectT): (value: keyof ObjectT) => boolean => (value: keyof ObjectT): boolean => 0 <= Object.keys(mapObject).indexOf(value.toString());
 export const stringArrayValidator = (value: string[]) => "[object Array]" === Object.prototype.toString.call(value) && value.map(i => "string" === typeof i).reduce((a, b) => a && b, true);
