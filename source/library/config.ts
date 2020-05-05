@@ -97,6 +97,7 @@ export class MapEntry<ObjectT>
     {
     }
     config = new Entry<keyof ObjectT>(this.key, makeEnumValidator(this.mapObject));
+    public set = async ( value : keyof ObjectT , configurationTarget ? : vscode . ConfigurationTarget | boolean ) => this.config.set(value, configurationTarget);
     public get = (languageId: string) => this.mapObject[this.config.cache.get(languageId)];
     public getCache = (languageId: string) => this.mapObject[this.config.cache.getCache(languageId)];
     public clear = this.config.cache.clear;
