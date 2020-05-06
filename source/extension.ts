@@ -168,6 +168,15 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
                 .filter ( i => i . when )
             )
         ) ?. command ( )
-    )
+    ),
+    vscode . workspace . onDidChangeConfiguration
+    (
+        event =>
+        {
+            settingsJsonPath . onDidChangeConfiguration ( event . affectsConfiguration ) ;
+            defaultProfile . onDidChangeConfiguration ( event . affectsConfiguration ) ;
+            defaultDirectory . onDidChangeConfiguration ( event . affectsConfiguration ) ;
+        }
+    ),
 ) ;
 export const deactivate = ( ) => { } ;
