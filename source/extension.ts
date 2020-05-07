@@ -54,6 +54,29 @@ export const getCurrentFolder = ( ) : string =>
     0 < vscode . workspace . workspaceFolders . length ?
         vscode . workspace . workspaceFolders [ 0 ] . uri . fsPath :
         "." ;
+export const parseJsonWithComment = ( json : string ) => JSON . parse
+(
+    json . replace ( /^\s*(\/\/.*)$/gm , "" )
+);
+export const isCandidateSettingJson = async ( document : vscode . TextDocument ) =>
+{
+    if ( "json" === document . languageId )
+    {
+        try
+        {
+            const settings = < SettingsJson > parseJsonWithComment ( document . getText ( ) );
+            if ( "https://aka.ms/terminal-profiles-schema" === settings.$schema )
+            {
+                return true;
+            }
+        }
+        catch ( error )
+        {
+            console.log ( error ) ;
+        }
+    }
+    return false;
+};
 export const getSettingJsonDocument = async ( ) => await vscode . workspace . openTextDocument
 (
     await getSettingJsonPath ( )
@@ -98,13 +121,12 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
             await vscode . window . showQuickPick
             (
                 (
-                    < SettingsJson > JSON . parse
+                    < SettingsJson > parseJsonWithComment
                     (
                         (
                             await getSettingJsonDocument ( )
                         )
                         . getText ( )
-                        . replace ( /^\s*(\/\/.*)$/gm , "" )
                     )
                 )
                 . profiles . list . map
@@ -178,5 +200,26 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
             defaultDirectory . onDidChangeConfiguration ( event . affectsConfiguration ) ;
         }
     ),
+    vscode . workspace . onDidOpenTextDocument
+    (
+        async ( document ) =>
+        {
+            if ( settingsJsonPath . get ( "" ) && isCandidateSettingJson ( document ) )
+            {
+                if
+                (
+                    "Yes" === await vscode . window . showInformationMessage
+                    (
+                        "Do you register this document as Windows Terminal's settings.json ?",
+                        "Yes",
+                        "No"
+                    )
+                )
+                {
+                    registerSettingsJsonUri ( document . uri ) ;
+                }
+            }
+        }
+    )
 ) ;
 export const deactivate = ( ) => { } ;
