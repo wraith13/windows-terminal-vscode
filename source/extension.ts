@@ -129,14 +129,20 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
                         . getText ( )
                     )
                 )
-                . profiles . list . map
+                . profiles . list
+                . filter ( p => ! p . hidden )
+                . map
                 (
                     p =>
                     ({
                         label : p . name ,
+                        detail: p . guid ,
                         command : ( ) => executeWindowsTerminal ({ profile : p . guid }) ,
                     })
-                )
+                ),
+                {
+                    matchOnDetail : true
+                }
             )
         ) ?. command ( )
     ) ,
