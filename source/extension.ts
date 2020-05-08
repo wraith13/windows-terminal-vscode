@@ -40,15 +40,6 @@ interface SettingsJsonKeybindingCommand
     splitMode : string ;
 }
 export const getStoreUri = ( ) => vscode.Uri.parse ( "https://www.microsoft.com/ja-jp/p/windows-terminal-preview/9n0dx20hk701" ) ;
-export const getSettingJsonPath = async ( ) =>
-{
-    const config = settingsJsonPath . get ( "" ) ;
-    if ( null !== config && "" !== config )
-    {
-        return config;
-    }
-    return `${ process . env [ "USERPROFILE" ] }\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json` ;
-} ;
 export const getCurrentFolder = ( ) : string =>
     vscode . workspace . workspaceFolders &&
     0 < vscode . workspace . workspaceFolders . length ?
@@ -79,7 +70,7 @@ export const isCandidateSettingJson = async ( document : vscode . TextDocument )
 };
 export const getSettingJsonDocument = async ( ) => await vscode . workspace . openTextDocument
 (
-    await getSettingJsonPath ( )
+    settingsJsonPath . get ( "" )
 ) ;
 export const makeDirectoryParam = ( directory : string | null ) => directory ? ` -d ${ directory }` : "" ;
 export const makeProfileParam = ( profile : string | null ) => profile ? ` -p ${ profile }` : "" ;
@@ -154,48 +145,14 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
     vscode . commands . registerCommand
     (
         'windowsTerminal.registerSettings' ,
-        async ( ) => await
-        (
-            await vscode . window . showQuickPick
-            (
-                [
-                    {
-                        label : "Register this document as Windows Terminal's settings.json" ,
-                        command : async ( ) =>
-                        {
-                            const document = vscode . window . activeTextEditor ?. document;
-                            if ( document )
-                            {
-                                registerSettingsJsonUri ( document . uri ) ;
-                            }
-                        } ,
-                        when : !! vscode . window . activeTextEditor ?. document ,
-                    },
-                    {
-                        label : "Register select document as Windows Terminal's settings.json" ,
-                        command : async ( ) =>
-                        {
-                            const selectFiles = await vscode.window.showOpenDialog
-                            ({
-                                defaultUri : vscode . Uri .parse ( `${ process . env [ "USERPROFILE" ] }\\AppData\\Local\\Packages` ),
-                                openLabel : "Select Windows Terminal's settings.json",
-                                canSelectMany: false,
-                                filters :
-                                {
-                                    "JSON" : [ "json" ],
-                                }
-                            }) ;
-                            if ( selectFiles && 0 < selectFiles . length )
-                            {
-                                registerSettingsJsonUri ( selectFiles [ 0 ] ) ;
-                            }
-                        } ,
-                        when : true
-                    },
-                ]
-                .filter ( i => i . when )
-            )
-        ) ?. command ( )
+        async ( ) =>
+        {
+            const document = vscode . window . activeTextEditor ?. document;
+            if ( document )
+            {
+                registerSettingsJsonUri ( document . uri ) ;
+            }
+        }
     ),
     vscode . workspace . onDidChangeConfiguration
     (
