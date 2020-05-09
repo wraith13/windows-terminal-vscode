@@ -60,6 +60,26 @@
                         "type": "string",
                         "default": null,
                         "description": "%windowsTerminal.defaultDirectory.description%"
+                    },
+                    "windowsTerminal.statusBarAlignment": {
+                        "type": "string",
+                        "enum": [
+                            "none",
+                            "left",
+                            "right"
+                        ],
+                        "default": "left",
+                        "description": "%windowsTerminal.statusBarAlignment.description%"
+                    },
+                    "windowsTerminal.statusBarCommand": {
+                        "type": "string",
+                        "enum": [
+                            "windowsTerminal.open",
+                            "windowsTerminal.openProfile",
+                            "windowsTerminal.openSettings"
+                        ],
+                        "default": "windowsTerminal.open",
+                        "description": "%windowsTerminal.statusBarCommand.description%"
                     }
                 }
             }

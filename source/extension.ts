@@ -2,6 +2,20 @@ import * as vscode from 'vscode' ;
 import * as process from 'process' ;
 import * as child_process from 'child_process' ;
 import * as Config from "./library/config" ;
+const statusBarAlignmentObject = Object . freeze
+({
+    "none" : undefined ,
+    "left" : vscode . StatusBarAlignment . Left ,
+    "right" : vscode . StatusBarAlignment . Right ,
+}) ;
+export const statusBarAlignment = new Config.MapEntry ( "windowsTerminal.statusBarAlignment" , statusBarAlignmentObject );
+const statusBarCommandObject = Object . freeze
+({
+    "windowsTerminal.open" : "Open Windows Terminal",
+    "windowsTerminal.openProfile" : "Open Windows Terminal with Profile",
+    "windowsTerminal.openSettings" : "Open Windows Terminal's settings.json"
+}) ;
+export const statusBarCommand = new Config.MapEntry ( "windowsTerminal.statusBarCommand" , statusBarCommandObject );
 export const settingsJsonPath = new Config . Entry < string > ( "windowsTerminal.settingsJsonPath" ) ;
 export const defaultProfile = new Config . Entry < string > ( "windowsTerminal.defaultProfile" ) ;
 export const defaultDirectory = new Config . Entry < string > ( "windowsTerminal.defaultDirectory" ) ;
