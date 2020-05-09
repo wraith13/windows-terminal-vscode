@@ -40,11 +40,6 @@
                 "command": "windowsTerminal.openSettings",
                 "title": "Open settings.json",
                 "category": "Windows Terminal"
-            },
-            {
-                "command": "windowsTerminal.registerSettings",
-                "title": "Register settings.json",
-                "category": "Windows Terminal"
             }
         ],
         "configuration": [
