@@ -110,7 +110,8 @@ export class MapEntry < ObjectT >
     }
     config = new Entry < keyof ObjectT > ( this .key , makeEnumValidator ( this . mapObject ) ) ;
     public set = this . config . set ;
-    public get = ( languageId : string ) => this . mapObject [ this . config . cache . get ( languageId ) ] ;
+    public getKey = ( languageId : string ) => this . config . cache . get ( languageId ) ;
+    public get = ( languageId : string ) => this . mapObject [ this . getKey ( languageId ) ] ;
     public getCache = ( languageId : string ) =>
         this . mapObject [ this . config . cache . getCache ( languageId ) ] ;
     public clear = this . config . cache . clear ;

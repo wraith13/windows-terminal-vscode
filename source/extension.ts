@@ -53,6 +53,50 @@ interface SettingsJsonKeybindingCommand
     split : string ;
     splitMode : string ;
 }
+module StatusBarItem
+{
+    const create =
+    (
+        properties :
+        {
+            alignment ? : vscode . StatusBarAlignment ,
+            text ? : string ,
+            command ? : string ,
+            tooltip ? : string
+        }
+    )
+    : vscode . StatusBarItem =>
+    {
+        const result = vscode . window . createStatusBarItem ( properties . alignment );
+        if ( undefined !== properties . text )
+        {
+            result . text = properties . text;
+        }
+        if ( undefined !== properties . command )
+        {
+            result . command = properties . command ;
+        }
+        if ( undefined !== properties . tooltip )
+        {
+            result . tooltip = properties . tooltip ;
+        }
+        return result ;
+    };
+    let statusBarItem: vscode.StatusBarItem;
+    export const make = ( ) => statusBarItem = create
+    ({
+        alignment : statusBarAlignment . get ( "" ) ,
+        text : `$(terminal)` ,
+        command : statusBarCommand . getKey ( "" ) ,
+        tooltip : statusBarCommand . get ( "" ) ,
+    });
+    export const update = ( ) : void =>
+    {
+        statusBarItem.command = statusBarCommand . getKey ( "" );
+        statusBarItem.tooltip = statusBarCommand . get ( "" );
+        statusBarItem.show ( );
+    };
+}
 export const getStoreUri = ( ) => vscode.Uri.parse ( "https://www.microsoft.com/ja-jp/p/windows-terminal-preview/9n0dx20hk701" ) ;
 export const getSettingJsonPath = async ( ) =>
 {
@@ -153,7 +197,13 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
             settingsJsonPath . onDidChangeConfiguration ( event . affectsConfiguration ) ;
             defaultProfile . onDidChangeConfiguration ( event . affectsConfiguration ) ;
             defaultDirectory . onDidChangeConfiguration ( event . affectsConfiguration ) ;
+            statusBarAlignment . onDidChangeConfiguration ( event . affectsConfiguration ) ;
+            if ( statusBarCommand . onDidChangeConfiguration ( event . affectsConfiguration ) )
+            {
+                StatusBarItem . update ( );
+            }
         }
     ),
+    StatusBarItem . make ( )
 ) ;
 export const deactivate = ( ) => { } ;
