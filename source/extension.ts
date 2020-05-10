@@ -8,6 +8,7 @@ const statusBarAlignmentObject = Object . freeze
     "left" : vscode . StatusBarAlignment . Left ,
     "right" : vscode . StatusBarAlignment . Right ,
 }) ;
+export const statusBarText = new Config . Entry < string > ( "windowsTerminal.statusBarText" ) ;
 export const statusBarAlignment = new Config.MapEntry ( "windowsTerminal.statusBarAlignment" , statusBarAlignmentObject );
 const statusBarCommandObject = Object . freeze
 ({
@@ -86,15 +87,16 @@ module StatusBarItem
     export const make = ( ) => statusBarItem = create
     ({
         alignment : statusBarAlignment . get ( "" ) ,
-        text : `$(terminal)` ,
+        text : statusBarText . get ( "" ) ,
         command : statusBarCommand . getKey ( "" ) ,
         tooltip : statusBarCommand . get ( "" ) ,
     });
     export const update = ( ) : void =>
     {
-        statusBarItem.command = statusBarCommand . getKey ( "" );
-        statusBarItem.tooltip = statusBarCommand . get ( "" );
-        statusBarItem.show ( );
+        statusBarItem . text = statusBarText . get ( "" ) ;
+        statusBarItem . command = statusBarCommand . getKey ( "" ) ;
+        statusBarItem . tooltip = statusBarCommand . get ( "" ) ;
+        statusBarItem . show ( );
     };
 }
 export const getStoreUri = ( ) => vscode.Uri.parse ( "https://www.microsoft.com/ja-jp/p/windows-terminal-preview/9n0dx20hk701" ) ;
@@ -194,13 +196,24 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
     (
         event =>
         {
-            settingsJsonPath . onDidChangeConfiguration ( event . affectsConfiguration ) ;
-            defaultProfile . onDidChangeConfiguration ( event . affectsConfiguration ) ;
-            defaultDirectory . onDidChangeConfiguration ( event . affectsConfiguration ) ;
-            statusBarAlignment . onDidChangeConfiguration ( event . affectsConfiguration ) ;
-            if ( statusBarCommand . onDidChangeConfiguration ( event . affectsConfiguration ) )
+            [
+                settingsJsonPath ,
+                defaultProfile ,
+                defaultDirectory ,
+                statusBarAlignment ,
+            ]
+            . map ( i => i . onDidChangeConfiguration ( event . affectsConfiguration ) ) ;
+            if
+            (
+                [
+                    statusBarText ,
+                    statusBarCommand ,
+                ]
+                . map ( i => i . onDidChangeConfiguration ( event . affectsConfiguration ) )
+                . reduce ( ( a , b ) => a || b , true )
+            )
             {
-                StatusBarItem . update ( );
+                StatusBarItem . update ( ) ;
             }
         }
     ),

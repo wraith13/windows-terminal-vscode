@@ -71,6 +71,11 @@
                         "default": "left",
                         "description": "%windowsTerminal.statusBarAlignment.description%"
                     },
+                    "windowsTerminal.statusBarText": {
+                        "type": "string",
+                        "default": "$(terminal)",
+                        "description": "%windowsTerminal.statusBarText.description%"
+                    },
                     "windowsTerminal.statusBarCommand": {
                         "type": "string",
                         "enum": [
