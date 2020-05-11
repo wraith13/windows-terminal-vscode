@@ -61,10 +61,20 @@
                         "default": null,
                         "description": "%windowsTerminal.defaultProfile.description%"
                     },
+                    "windowsTerminal.enabledDirectoryOption": {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "%windowsTerminal.enabledDirectoryOption.description%"
+                    },
                     "windowsTerminal.defaultDirectory": {
                         "type": "string",
                         "default": null,
                         "description": "%windowsTerminal.defaultDirectory.description%"
+                    },
+                    "windowsTerminal.defaultOptions": {
+                        "type": "string",
+                        "default": null,
+                        "description": "%windowsTerminal.defaultOptions.description%"
                     },
                     "windowsTerminal.statusBarAlignment": {
                         "type": "string",

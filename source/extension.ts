@@ -19,7 +19,9 @@ const statusBarCommandObject = Object . freeze
 export const statusBarCommand = new Config.MapEntry ( "windowsTerminal.statusBarCommand" , statusBarCommandObject );
 export const settingsJsonPath = new Config . Entry < string > ( "windowsTerminal.settingsJsonPath" ) ;
 export const defaultProfile = new Config . Entry < string > ( "windowsTerminal.defaultProfile" ) ;
+export const enabledDirectoryOption = new Config . Entry < boolean > ( "windowsTerminal.enabledDirectoryOption" ) ;
 export const defaultDirectory = new Config . Entry < string > ( "windowsTerminal.defaultDirectory" ) ;
+export const defaultOptions = new Config . Entry < string > ( "windowsTerminal.defaultOptions" ) ;
 interface SettingsJson
 {
     "$schema" : string ;
@@ -101,7 +103,7 @@ module StatusBarItem
 }
 export const getStoreUri = ( ) => vscode.Uri.parse ( "https://www.microsoft.com/ja-jp/p/windows-terminal-preview/9n0dx20hk701" ) ;
 export const getDocumentUri = ( ) => vscode.Uri.parse ( "https://github.com/microsoft/terminal/tree/master/doc/user-docs" ) ;
-export const getSettingJsonPath = async ( ) =>
+export const getSettingsJsonPath = async ( ) =>
 {
     const config = settingsJsonPath . get ( "" ) ;
     if ( null !== config && "" !== config )
@@ -111,21 +113,28 @@ export const getSettingJsonPath = async ( ) =>
     // settings.json のパスは決め打ちで良いっぽい。 https://github.com/microsoft/terminal/blob/master/doc/user-docs/UsingJsonSettings.md
     return `${ process . env [ "LOCALAPPDATA" ] }\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json` ;
 } ;
-export const getCurrentFolder = ( ) : string =>
+export const getCurrentFolder = ( ) =>
     vscode . workspace . workspaceFolders &&
     0 < vscode . workspace . workspaceFolders . length ?
         vscode . workspace . workspaceFolders [ 0 ] . uri . fsPath :
-        "." ;
+        null ;
 export const parseJsonWithComment = ( json : string ) => JSON . parse
 (
     json . replace ( /^\s*(\/\/.*)$/gm , "" )
 );
-export const getSettingJsonDocument = async ( ) => await vscode . workspace . openTextDocument
+export const getSettingsJsonDocument = async ( ) => await vscode . workspace . openTextDocument
 (
-    await getSettingJsonPath ( )
+    await getSettingsJsonPath ( )
 ) ;
-export const makeDirectoryParam = ( directory : string | null ) => directory ? ` -d ${ directory }` : "" ;
+export const getSettings = async ( ) => < SettingsJson > parseJsonWithComment
+(
+    (
+        await getSettingsJsonDocument ( )
+    )
+    . getText ( )
+);
 export const makeProfileParam = ( profile : string | null ) => profile ? ` -p ${ profile }` : "" ;
+export const makeDirectoryParam = ( directory : string | null ) => directory ? ` -d ${ directory }` : "" ;
 export const executeWindowsTerminal =
 (
     data :
@@ -138,8 +147,15 @@ export const executeWindowsTerminal =
 (
     [
         "wt" ,
-        makeDirectoryParam ( data . directory ?? defaultDirectory . get ( "" ) ?? getCurrentFolder ( ) ) ,
-        makeProfileParam ( data . profile ?? defaultDirectory . get ( "" ) ) ,
+        defaultOptions . get ( "" ) ?? "",
+        makeProfileParam ( data . profile ?? defaultProfile . get ( "" ) ) ,
+        makeDirectoryParam
+        (
+            data . directory ??
+            enabledDirectoryOption . get ( "" ) ?
+                ( defaultDirectory . get ( "" ) ?? getCurrentFolder ( ) ) :
+                null
+        ) ,
     ]
     .join("")
 );
@@ -168,13 +184,7 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
             await vscode . window . showQuickPick
             (
                 (
-                    < SettingsJson > parseJsonWithComment
-                    (
-                        (
-                            await getSettingJsonDocument ( )
-                        )
-                        . getText ( )
-                    )
+                    await getSettings()
                 )
                 . profiles . list
                 . filter ( p => ! p . hidden )
@@ -196,7 +206,7 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
     vscode . commands . registerCommand
     (
         'windowsTerminal.openSettings' ,
-        async ( ) => await vscode . window . showTextDocument ( await getSettingJsonDocument ( ) )
+        async ( ) => await vscode . window . showTextDocument ( await getSettingsJsonDocument ( ) )
     ),
     vscode . workspace . onDidChangeConfiguration
     (
@@ -205,7 +215,9 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
             [
                 settingsJsonPath ,
                 defaultProfile ,
+                enabledDirectoryOption ,
                 defaultDirectory ,
+                defaultOptions ,
                 statusBarAlignment ,
             ]
             . map ( i => i . onDidChangeConfiguration ( event . affectsConfiguration ) ) ;
