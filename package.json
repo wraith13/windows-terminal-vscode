@@ -23,22 +23,27 @@
         "commands": [
             {
                 "command": "windowsTerminal.showStore",
-                "title": "Show Store",
+                "title": "%windowsTerminal.showStore.title%",
+                "category": "Windows Terminal"
+            },
+            {
+                "command": "windowsTerminal.showDocument",
+                "title": "%windowsTerminal.showDocument.title%",
                 "category": "Windows Terminal"
             },
             {
                 "command": "windowsTerminal.open",
-                "title": "Open",
+                "title": "%windowsTerminal.open.title%",
                 "category": "Windows Terminal"
             },
             {
                 "command": "windowsTerminal.openProfile",
-                "title": "Open with Profile",
+                "title": "%windowsTerminal.openProfile.title%",
                 "category": "Windows Terminal"
             },
             {
                 "command": "windowsTerminal.openSettings",
-                "title": "Open settings.json",
+                "title": "%windowsTerminal.openSettings.title%",
                 "category": "Windows Terminal"
             }
         ],

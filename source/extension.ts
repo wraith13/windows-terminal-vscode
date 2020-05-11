@@ -100,6 +100,7 @@ module StatusBarItem
     };
 }
 export const getStoreUri = ( ) => vscode.Uri.parse ( "https://www.microsoft.com/ja-jp/p/windows-terminal-preview/9n0dx20hk701" ) ;
+export const getDocumentUri = ( ) => vscode.Uri.parse ( "https://github.com/microsoft/terminal/tree/master/doc/user-docs" ) ;
 export const getSettingJsonPath = async ( ) =>
 {
     const config = settingsJsonPath . get ( "" ) ;
@@ -148,6 +149,11 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
     (
         'windowsTerminal.showStore' ,
         async ( ) => await vscode . env . openExternal ( getStoreUri ( ) )
+    ) ,
+    vscode . commands . registerCommand
+    (
+        'windowsTerminal.showDocument' ,
+        async ( ) => await vscode . env . openExternal ( getDocumentUri ( ) )
     ) ,
     vscode . commands . registerCommand
     (
