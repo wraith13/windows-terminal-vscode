@@ -1,0 +1,15 @@
+{
+    "windowsTerminal.showStore.title": "Show Store",
+    "windowsTerminal.showDocument.title": "Show User Document",
+    "windowsTerminal.open.title": "Open",
+    "windowsTerminal.openProfile.title": "Open with Profile ...",
+    "windowsTerminal.openSettings.title": "Open settings.json",
+    "windowsTerminal.settingsJsonPath.description": "Path of Windows Terminal's settings.json.",
+    "windowsTerminal.defaultProfile.description": "GUID of default profile.",
+    "windowsTerminal.enabledDirectoryOption.description": "Enabled directory option.",
+    "windowsTerminal.defaultDirectory.description": "Default directory. ( If not specified, it will open a workspace folder. )",
+    "windowsTerminal.defaultOptions.description": "other options for Windows Terminal",
+    "windowsTerminal.statusBarAlignment.description": "Alignment on status bar. Requires a restart to take effect.",
+    "windowsTerminal.statusBarText.description": "Status bar's label.",
+    "windowsTerminal.statusBarCommand.description": "Status bar's command."
+}
