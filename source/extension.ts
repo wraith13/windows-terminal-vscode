@@ -180,28 +180,30 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
     (
         'windowsTerminal.openProfile' ,
         async ( ) =>
-        (
-            await vscode . window . showQuickPick
+        {
+            const settings = await getSettings();
             (
+                await vscode . window . showQuickPick
                 (
-                    await getSettings()
+                    settings . profiles . list
+                    . filter ( p => ! p . hidden )
+                    . map
+                    (
+                        p =>
+                        ({
+                            label : p . name ,
+                            description : settings . defaultProfile === p . guid ? "( default )" : undefined ,
+                            detail : p . guid ,
+                            command : ( ) => executeWindowsTerminal ({ profile : p . guid }) ,
+                        })
+                    ),
+                    {
+                        matchOnDescription : true ,
+                        matchOnDetail : true ,
+                    }
                 )
-                . profiles . list
-                . filter ( p => ! p . hidden )
-                . map
-                (
-                    p =>
-                    ({
-                        label : p . name ,
-                        detail: p . guid ,
-                        command : ( ) => executeWindowsTerminal ({ profile : p . guid }) ,
-                    })
-                ),
-                {
-                    matchOnDetail : true
-                }
-            )
-        ) ?. command ( )
+            ) ?. command ( ) ;
+        }
     ) ,
     vscode . commands . registerCommand
     (
