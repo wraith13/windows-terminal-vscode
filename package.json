@@ -20,6 +20,16 @@
     "categories": [
         "Other"
     ],
+    "keywords": [
+        "Windows Terminal",
+        "terminal",
+        "console",
+        "cmd",
+        "powershell",
+        "wsl",
+        "wsl2",
+        "Azure Cloud Shell"
+    ],
     "activationEvents": [
         "*"
     ],
