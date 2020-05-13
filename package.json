@@ -9,6 +9,14 @@
     "engines": {
         "vscode": "^1.42.0"
     },
+    "bugs": {
+        "url": "https://github.com/wraith13/windows-terminal-vscode/issues"
+    },
+    "homepage": "https://github.com/wraith13/windows-terminal-vscode",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/wraith13/windows-terminal-vscode.git"
+    },
     "categories": [
         "Other"
     ],
