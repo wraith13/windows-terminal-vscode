@@ -2,6 +2,7 @@ import * as vscode from 'vscode' ;
 import * as process from 'process' ;
 import * as child_process from 'child_process' ;
 import * as Config from "./library/config" ;
+import * as Locale from "./library/locale" ;
 const statusBarAlignmentObject = Object . freeze
 ({
     "none" : undefined ,
@@ -192,12 +193,13 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
                         p =>
                         ({
                             label : p . name ,
-                            description : settings . defaultProfile === p . guid ? "( default )" : undefined ,
+                            description : settings . defaultProfile === p . guid ? "default" :undefined ,
                             detail : p . guid ,
                             command : ( ) => executeWindowsTerminal ({ profile : p . guid }) ,
                         })
                     ),
                     {
+                        placeHolder : Locale . map ( "selectProfile" ) ,
                         matchOnDescription : true ,
                         matchOnDetail : true ,
                     }

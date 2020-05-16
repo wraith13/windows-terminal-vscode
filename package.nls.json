@@ -8,8 +8,9 @@
     "windowsTerminal.defaultProfile.description": "GUID of default profile.",
     "windowsTerminal.enabledDirectoryOption.description": "Enabled directory option.",
     "windowsTerminal.defaultDirectory.description": "Default directory. ( If not specified, it will open a workspace folder. )",
-    "windowsTerminal.defaultOptions.description": "other options for Windows Terminal",
+    "windowsTerminal.defaultOptions.description": "Other options for Windows Terminal.",
     "windowsTerminal.statusBarAlignment.description": "Alignment on status bar. Requires a restart to take effect.",
     "windowsTerminal.statusBarText.description": "Status bar's label.",
-    "windowsTerminal.statusBarCommand.description": "Status bar's command."
+    "windowsTerminal.statusBarCommand.description": "Status bar's command.",
+    "selectProfile": "Select a profile."
 }

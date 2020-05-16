@@ -11,5 +11,6 @@
     "windowsTerminal.defaultOptions.description": "Windows Terminal に指定するその他のオプション",
     "windowsTerminal.statusBarAlignment.description": "ステータスバーでの表示位置。有効にするには再起動が必要です。",
     "windowsTerminal.statusBarText.description": "ステータスバーのラベル。",
-    "windowsTerminal.statusBarCommand.description": "ステータスバーのコマンド。"
+    "windowsTerminal.statusBarCommand.description": "ステータスバーのコマンド。",
+    "selectProfile": "プロファイルを選択してください。"
 }
