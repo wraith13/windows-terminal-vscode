@@ -4,6 +4,12 @@ All notable changes to the "windows-terminal" extension will be documented in th
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 1.0.1 - 2020-05-17
+
+### Fixed
+
+- Fixed wrong URLs in README.
+
 ## 1.0.0 - 2020-05-17
 
 ### Added

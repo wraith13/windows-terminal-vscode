@@ -1,6 +1,6 @@
 # Windows Terminal Utility README
 
-[![Visual Studio Marketplace](https://vsmarketplacebadge.apphb.com/version/wraith13.windows-terminal-vscode.svg) ![installs](https://vsmarketplacebadge.apphb.com/installs/wraith13.windows-terminal-vscode.svg) ![rating](https://vsmarketplacebadge.apphb.com/rating/wraith13.windows-terminal-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=wraith13.windows-terminal-vscode)
+[![Visual Studio Marketplace](https://vsmarketplacebadge.apphb.com/version/wraith13.windows-terminal.svg) ![installs](https://vsmarketplacebadge.apphb.com/installs/wraith13.windows-terminal.svg) ![rating](https://vsmarketplacebadge.apphb.com/rating/wraith13.windows-terminal.svg)](https://marketplace.visualstudio.com/items?itemName=wraith13.windows-terminal)
 
 Windows Terminal Utility for VS Code. ( ⚠ This is a unofficial extension. )
 
@@ -25,7 +25,7 @@ Install Windows Terminal from here: <https://www.microsoft.com/ja-jp/p/windows-t
 
 ### 1. ⬇️ Install Windows Terminal Utility
 
-Show extension side bar within VS Code(Mac:<kbd>Command</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd>, Windows and Linux: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd>), type `windows-terminal-vscode` and press <kbd>Enter</kbd> and click <kbd>Install</kbd>. Restart VS Code when installation is completed.
+Show extension side bar within VS Code(Mac:<kbd>Command</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd>, Windows and Linux: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd>), type `windows-terminal` and press <kbd>Enter</kbd> and click <kbd>Install</kbd>. Restart VS Code when installation is completed.
 
 ### 2. 🚀 Open Windows Terminal
 
@@ -76,7 +76,7 @@ Command name on `keybindings.json` is diffarent from on Command Pallete. See bel
 
 ## Release Notes
 
-see ChangLog on [marketplace](https://marketplace.visualstudio.com/items/wraith13.windows-terminal-vscode/changelog) or [github](https://github.com/wraith13/file-path-bar-vscode/blob/master/CHANGELOG.md)
+see ChangLog on [marketplace](https://marketplace.visualstudio.com/items/wraith13.windows-terminal/changelog) or [github](https://github.com/wraith13/file-path-bar-vscode/blob/master/CHANGELOG.md)
 
 ## Support
 
