@@ -3,7 +3,7 @@
     "displayName": "Windows Terminal Utility",
     "description": "Windows Terminal Utility for VS Code.",
     "icon": "images/terminalhex.128.png",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "publisher": "wraith13",
     "license": "SEE LICENSE IN LICENSE_1_0.txt",
     "engines": {
@@ -70,12 +70,12 @@
                 "title": "Windows Terminal",
                 "properties": {
                     "windowsTerminal.settingsJsonPath": {
-                        "type": "string",
+                        "type": [ "string", "null" ],
                         "default": null,
                         "description": "%windowsTerminal.settingsJsonPath.description%"
                     },
                     "windowsTerminal.defaultProfile": {
-                        "type": "string",
+                        "type": [ "string", "null" ],
                         "default": null,
                         "description": "%windowsTerminal.defaultProfile.description%"
                     },
@@ -85,12 +85,12 @@
                         "description": "%windowsTerminal.enabledDirectoryOption.description%"
                     },
                     "windowsTerminal.defaultDirectory": {
-                        "type": "string",
+                        "type": [ "string", "null" ],
                         "default": null,
                         "description": "%windowsTerminal.defaultDirectory.description%"
                     },
                     "windowsTerminal.defaultOptions": {
-                        "type": "string",
+                        "type": [ "string", "null" ],
                         "default": null,
                         "description": "%windowsTerminal.defaultOptions.description%"
                     },
