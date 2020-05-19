@@ -71,7 +71,7 @@ Command name on `keybindings.json` is diffarent from on Command Pallete. See bel
 |`Windows Terminal: Open`|`windowsTerminal.open`|
 |`Windows Terminal: Open with Profile ...`|`windowsTerminal.openProfile`|
 |`Windows Terminal: Open settings.json`|`windowsTerminal.openSettings`|
-|`Windows Terminal: Show Store`|`showStore`|
+|`Windows Terminal: Show Store`|`windowsTerminal.showStore`|
 |`Windows Terminal: Show User Document`|`windowsTerminal.showDocument`|
 
 ## Release Notes
