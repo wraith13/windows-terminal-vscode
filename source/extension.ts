@@ -20,7 +20,25 @@ const statusBarCommandObject = Object . freeze
 export const statusBarCommand = new Config.MapEntry ( "windowsTerminal.statusBarCommand" , statusBarCommandObject );
 export const settingsJsonPath = new Config . Entry < string > ( "windowsTerminal.settingsJsonPath" ) ;
 export const defaultProfile = new Config . Entry < string > ( "windowsTerminal.defaultProfile" ) ;
-export const enabledDirectoryOption = new Config . Entry < boolean > ( "windowsTerminal.enabledDirectoryOption" ) ;
+const directoryOptionPriorityObject = Object . freeze
+({
+    "No specified" :
+    async (
+        _getVscodeSettingValue : ( ) => Promise < string | null > ,
+        _getWindowsTerminalSettingValue : ( ) => Promise < string | null >
+    ) => null ,
+    "Prioritize Windows Terminal's settings" :
+    async (
+        getVscodeSettingValue : ( ) => Promise < string | null > ,
+        getWindowsTerminalSettingValue : ( ) => Promise < string | null >
+    ) => await getWindowsTerminalSettingValue ( ) ?? await getVscodeSettingValue ( ) ,
+    "Prioritize VS Code's settings" :
+    async (
+        getVscodeSettingValue : ( ) => Promise < string | null > ,
+        getWindowsTerminalSettingValue : ( ) => Promise < string | null >
+    ) => await getVscodeSettingValue ( ) ?? await getWindowsTerminalSettingValue ( ) ,
+}) ;
+export const directoryOptionPriority = new Config.MapEntry ( "windowsTerminal.directoryOptionPriority" , directoryOptionPriorityObject ) ;
 export const defaultDirectory = new Config . Entry < string > ( "windowsTerminal.defaultDirectory" ) ;
 export const defaultOptions = new Config . Entry < string > ( "windowsTerminal.defaultOptions" ) ;
 interface SettingsJson
@@ -43,7 +61,8 @@ interface SettingsJsonProfileEntry
     guid : string ;
     name : string ;
     commandline : string ;
-    hidden: boolean ;
+    hidden : boolean ;
+    startingDirectory ? : string ;
 }
 interface SettingsJsonKeybinding
 {
@@ -134,10 +153,17 @@ export const getSettings = async ( ) => < SettingsJson > parseJsonWithComment
     )
     . getText ( )
 );
+export const getProfileStartingDirectory = async ( profile : string | null ) =>
+{
+    const settings = await getSettings();
+    profile = profile ?? settings . defaultProfile ;
+    return settings . profiles . list
+        . filter ( i => i . guid === profile ) [ 0 ] ?. startingDirectory ?? null ;
+};
 export const makeProfileParam = ( profile : string | null ) => profile ? ` -p ${ profile }` : "" ;
 export const makeDirectoryParam = ( directory : string | null ) => directory ? ` -d ${ directory }` : "" ;
 export const executeWindowsTerminal =
-(
+async (
     data :
     {
         directory ? : string ,
@@ -153,9 +179,11 @@ export const executeWindowsTerminal =
         makeDirectoryParam
         (
             data . directory ??
-            enabledDirectoryOption . get ( "" ) ?
-                ( defaultDirectory . get ( "" ) ?? getCurrentFolder ( ) ) :
-                null
+            await directoryOptionPriority . get ( "" )
+            (
+                async ( ) => ( defaultDirectory . get ( "" ) ?? getCurrentFolder ( ) ),
+                async ( ) => await getProfileStartingDirectory ( data . profile ?? defaultProfile . get ( "" ) )
+            )
         ) ,
     ]
     .join("")
@@ -175,7 +203,7 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
     vscode . commands . registerCommand
     (
         'windowsTerminal.open' ,
-        ( ) => executeWindowsTerminal ( )
+        async ( ) => await executeWindowsTerminal ( )
     ) ,
     vscode . commands . registerCommand
     (
@@ -195,7 +223,7 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
                             label : p . name ,
                             description : settings . defaultProfile === p . guid ? "default" :undefined ,
                             detail : p . guid ,
-                            command : ( ) => executeWindowsTerminal ({ profile : p . guid }) ,
+                            command : async ( ) => await executeWindowsTerminal ({ profile : p . guid }) ,
                         })
                     ),
                     {
@@ -219,7 +247,7 @@ export const activate = ( context : vscode . ExtensionContext ) => context . sub
             [
                 settingsJsonPath ,
                 defaultProfile ,
-                enabledDirectoryOption ,
+                directoryOptionPriority ,
                 defaultDirectory ,
                 defaultOptions ,
                 statusBarAlignment ,

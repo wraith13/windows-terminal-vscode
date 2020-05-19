@@ -79,10 +79,15 @@
                         "default": null,
                         "description": "%windowsTerminal.defaultProfile.description%"
                     },
-                    "windowsTerminal.enabledDirectoryOption": {
-                        "type": "boolean",
-                        "default": true,
-                        "description": "%windowsTerminal.enabledDirectoryOption.description%"
+                    "windowsTerminal.directoryOptionPriority": {
+                        "type": "string",
+                        "enum": [
+                            "No specified",
+                            "Prioritize Windows Terminal's settings",
+                            "Prioritize VS Code's settings"
+                        ],
+                        "default": "Prioritize Windows Terminal's settings",
+                        "description": "%windowsTerminal.directoryOption.description%"
                     },
                     "windowsTerminal.defaultDirectory": {
                         "type": [ "string", "null" ],
