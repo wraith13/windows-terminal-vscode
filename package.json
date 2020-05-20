@@ -87,7 +87,7 @@
                             "Prioritize VS Code's settings"
                         ],
                         "default": "Prioritize Windows Terminal's settings",
-                        "description": "%windowsTerminal.directoryOption.description%"
+                        "description": "%windowsTerminal.directoryOptionPriority.description%"
                     },
                     "windowsTerminal.defaultDirectory": {
                         "type": [ "string", "null" ],

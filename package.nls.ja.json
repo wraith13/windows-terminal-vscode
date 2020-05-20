@@ -6,7 +6,7 @@
     "windowsTerminal.openSettings.title": "settings.json を開く",
     "windowsTerminal.settingsJsonPath.description": "Windows Terminal の settings.json のパス。",
     "windowsTerminal.defaultProfile.description": "デフォルトで使用するプロファイルのGUID。",
-    "windowsTerminal.enabledDirectoryOption.description": "ディレクトリオプションの有効化。",
+    "windowsTerminal.directoryOptionPriority.description": "ディレクトリオプションの優先度。",
     "windowsTerminal.defaultDirectory.description": "デフォルトで開くディレクトリ。( 指定されていなければワークスペースのフォルダを開きます。 )",
     "windowsTerminal.defaultOptions.description": "Windows Terminal に指定するその他のオプション",
     "windowsTerminal.statusBarAlignment.description": "ステータスバーでの表示位置。有効にするには再起動が必要です。",

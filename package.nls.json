@@ -6,7 +6,7 @@
     "windowsTerminal.openSettings.title": "Open settings.json",
     "windowsTerminal.settingsJsonPath.description": "Path of Windows Terminal's settings.json.",
     "windowsTerminal.defaultProfile.description": "GUID of default profile.",
-    "windowsTerminal.enabledDirectoryOption.description": "Enabled directory option.",
+    "windowsTerminal.directoryOptionPriority.description": "Directory option priority.",
     "windowsTerminal.defaultDirectory.description": "Default directory. ( If not specified, it will open a workspace folder. )",
     "windowsTerminal.defaultOptions.description": "Other options for Windows Terminal.",
     "windowsTerminal.statusBarAlignment.description": "Alignment on status bar. Requires a restart to take effect.",
