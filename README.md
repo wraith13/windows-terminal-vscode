@@ -51,7 +51,7 @@ This extension contributes the following settings by [`settings.json`](https://c
 
 * `windowsTerminal.settingsJsonPath`: Path of Windows Terminal's settings.json.
 * `windowsTerminal.defaultProfile`: GUID of default profile.
-* `windowsTerminal.enabledDirectoryOption`: Enabled directory option.
+* `windowsTerminal.directoryOptionPriority`: Directory option priority.
 * `windowsTerminal.defaultDirectory`: Default directory. ( If not specified, it will open a workspace folder. )
 * `windowsTerminal.defaultOptions`: Other options for Windows Terminal.
 * `windowsTerminal.statusBarAlignment`: Alignment on status bar. Requires a restart to take effect.

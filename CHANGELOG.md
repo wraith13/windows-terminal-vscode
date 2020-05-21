@@ -4,6 +4,20 @@ All notable changes to the "windows-terminal" extension will be documented in th
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 2.0.0 - 2020-05-21
+
+### Added
+
+- `windowsTerminal.directoryOptionPriority` setting.
+
+### Removed
+
+- `windowsTerminal.enabledDirectoryOption` setting.
+
+### Fixed
+
+- Fixed wrong command name in README. ( `showStore` -> `windowsTerminal.showStore` )
+
 ## 1.0.2 - 2020-05-18
 
 ### Fixed
