@@ -6,7 +6,7 @@ Windows Terminal Utility for VS Code. ( ⚠ This is a unofficial extension. )
 
 ## ⚠ Requirements
 
-- [Windows Terminal](https://www.microsoft.com/ja-jp/p/windows-terminal-preview/9n0dx20hk701)
+- [Windows Terminal](https://www.microsoft.com/p/windows-terminal/9n0dx20hk701)
 
 ## Features
 
@@ -21,7 +21,7 @@ Windows Terminal Utility for VS Code. ( ⚠ This is a unofficial extension. )
 
 ### 0. ⬇️ Install Windows Terminal
 
-Install Windows Terminal from here: <https://www.microsoft.com/ja-jp/p/windows-terminal-preview/9n0dx20hk701>
+Install Windows Terminal from here: <https://www.microsoft.com/p/windows-terminal/9n0dx20hk701>
 
 ### 1. ⬇️ Install Windows Terminal Utility
 
