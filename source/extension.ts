@@ -31,12 +31,12 @@ const directoryOptionPriorityObject = Object.freeze
     async (
         getVscodeSettingValue: () => Promise<string | null>,
         getWindowsTerminalSettingValue: () => Promise<string | null>
-    ) => await getWindowsTerminalSettingValue () ?? await getVscodeSettingValue (),
+    ) => await getWindowsTerminalSettingValue () ?? await getVscodeSettingValue(),
     "Prioritize VS Code's settings":
     async (
         getVscodeSettingValue: () => Promise<string | null>,
         getWindowsTerminalSettingValue: () => Promise<string | null>
-    ) => await getVscodeSettingValue () ?? await getWindowsTerminalSettingValue (),
+    ) => await getVscodeSettingValue () ?? await getWindowsTerminalSettingValue(),
 });
 export const directoryOptionPriority = new Config.MapEntry("windowsTerminal.directoryOptionPriority", directoryOptionPriorityObject);
 export const defaultDirectory = new Config.Entry<string>("windowsTerminal.defaultDirectory");
@@ -108,16 +108,16 @@ module StatusBarItem
     let statusBarItem: vscode.StatusBarItem;
     export const make = () => statusBarItem = create
     ({
-        alignment: statusBarAlignment.get (""),
-        text: statusBarText.get (""),
-        command: statusBarCommand.getKey (""),
-        tooltip: statusBarCommand.get (""),
+        alignment: statusBarAlignment.get(""),
+        text: statusBarText.get(""),
+        command: statusBarCommand.getKey(""),
+        tooltip: statusBarCommand.get(""),
     });
     export const update = (): void =>
     {
-        statusBarItem.text = statusBarText.get ("");
-        statusBarItem.command = statusBarCommand.getKey ("");
-        statusBarItem.tooltip = statusBarCommand.get ("");
+        statusBarItem.text = statusBarText.get("");
+        statusBarItem.command = statusBarCommand.getKey("");
+        statusBarItem.tooltip = statusBarCommand.get("");
         statusBarItem.show();
     };
 }
