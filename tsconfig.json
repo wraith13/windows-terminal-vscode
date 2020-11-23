@@ -28,6 +28,7 @@
         "pretty": false,
         "noEmitOnError": true,
         "rootDir": ".",
+        "strict": true,
         "resolveJsonModule": true,
         "esModuleInterop": true
     },
