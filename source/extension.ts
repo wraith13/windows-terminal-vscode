@@ -1,25 +1,23 @@
 import * as vscode from 'vscode';
 import * as process from 'process';
 import * as child_process from 'child_process';
-import * as Config from "./library/config";
-import * as Locale from "./library/locale";
+import * as vscel from '@wraith13/vscel';
+import packageJson from "../package.json";
+import localeEn from "../package.nls.json";
+import localeJa from "../package.nls.ja.json";
+const locale = vscel.locale.make(localeEn, { "ja": localeJa });
 const statusBarAlignmentObject = Object.freeze
 ({
     "none": undefined,
     "left": vscode.StatusBarAlignment.Left,
     "right": vscode.StatusBarAlignment.Right,
 });
-export const statusBarText = new Config.Entry<string>("windowsTerminal.statusBarText");
-export const statusBarAlignment = new Config.MapEntry("windowsTerminal.statusBarAlignment", statusBarAlignmentObject);
 const statusBarCommandObject = Object.freeze
 ({
     "windowsTerminal.open": "Open Windows Terminal",
     "windowsTerminal.openProfile": "Open Windows Terminal with Profile",
     "windowsTerminal.openSettings": "Open Windows Terminal's settings.json"
 });
-export const statusBarCommand = new Config.MapEntry("windowsTerminal.statusBarCommand", statusBarCommandObject);
-export const settingsJsonPath = new Config.Entry<string>("windowsTerminal.settingsJsonPath");
-export const defaultProfile = new Config.Entry<string>("windowsTerminal.defaultProfile");
 const directoryOptionPriorityObject = Object.freeze
 ({
     "No specified":
@@ -38,9 +36,18 @@ const directoryOptionPriorityObject = Object.freeze
         getWindowsTerminalSettingValue: () => Promise<string | null>
     ) => await getVscodeSettingValue () ?? await getWindowsTerminalSettingValue(),
 });
-export const directoryOptionPriority = new Config.MapEntry("windowsTerminal.directoryOptionPriority", directoryOptionPriorityObject);
-export const defaultDirectory = new Config.Entry<string>("windowsTerminal.defaultDirectory");
-export const defaultOptions = new Config.Entry<string>("windowsTerminal.defaultOptions");
+module Config
+{
+    export const root = vscel.config.makeRoot(packageJson);
+    export const statusBarText = root.makeEntry<string>("windowsTerminal.statusBarText");
+    export const statusBarAlignment = root.makeMapEntry("windowsTerminal.statusBarAlignment", statusBarAlignmentObject);
+    export const statusBarCommand = root.makeMapEntry("windowsTerminal.statusBarCommand", statusBarCommandObject);
+    export const settingsJsonPath = root.makeEntry<string>("windowsTerminal.settingsJsonPath");
+    export const defaultProfile = root.makeEntry<string>("windowsTerminal.defaultProfile");
+    export const directoryOptionPriority = root.makeMapEntry("windowsTerminal.directoryOptionPriority", directoryOptionPriorityObject);
+    export const defaultDirectory = root.makeEntry<string>("windowsTerminal.defaultDirectory");
+    export const defaultOptions = root.makeEntry<string>("windowsTerminal.defaultOptions");
+    }
 interface SettingsJson
 {
     "$schema": string;
@@ -78,46 +85,19 @@ interface SettingsJsonKeybindingCommand
 }
 module StatusBarItem
 {
-    const create =
-    (
-        properties:
-        {
-            alignment?: vscode.StatusBarAlignment,
-            text?: string,
-            command?: string,
-            tooltip?: string
-        }
-    )
-    : vscode.StatusBarItem =>
-    {
-        const result = vscode.window.createStatusBarItem (properties.alignment);
-        if (undefined !== properties.text)
-        {
-            result.text = properties.text;
-        }
-        if (undefined !== properties.command)
-        {
-            result.command = properties.command;
-        }
-        if (undefined !== properties.tooltip)
-        {
-            result.tooltip = properties.tooltip;
-        }
-        return result;
-    };
     let statusBarItem: vscode.StatusBarItem;
-    export const make = () => statusBarItem = create
+    export const make = () => statusBarItem = vscel.statusbar.createItem
     ({
-        alignment: statusBarAlignment.get(""),
-        text: statusBarText.get(""),
-        command: statusBarCommand.getKey(""),
-        tooltip: statusBarCommand.get(""),
+        alignment: Config.statusBarAlignment.get(""),
+        text: Config.statusBarText.get(""),
+        command: Config.statusBarCommand.getKey(""),
+        tooltip: Config.statusBarCommand.get(""),
     });
     export const update = (): void =>
     {
-        statusBarItem.text = statusBarText.get("");
-        statusBarItem.command = statusBarCommand.getKey("");
-        statusBarItem.tooltip = statusBarCommand.get("");
+        statusBarItem.text = Config.statusBarText.get("");
+        statusBarItem.command = Config.statusBarCommand.getKey("");
+        statusBarItem.tooltip = Config.statusBarCommand.get("");
         statusBarItem.show();
     };
 }
@@ -125,7 +105,7 @@ export const getStoreUri = () => vscode.Uri.parse ("https://www.microsoft.com/ja
 export const getDocumentUri = () => vscode.Uri.parse ("https://github.com/microsoft/terminal/tree/master/doc/user-docs");
 export const getSettingsJsonPath = async () =>
 {
-    const config = settingsJsonPath.get("");
+    const config = Config.settingsJsonPath.get("");
     if (null !== config && "" !== config)
     {
         return config;
@@ -174,15 +154,15 @@ async (
 (
     [
         "wt",
-        defaultOptions.get("") ?? "",
-        makeProfileParam(data.profile ?? defaultProfile.get("")),
+        Config.defaultOptions.get("") ?? "",
+        makeProfileParam(data.profile ?? Config.defaultProfile.get("")),
         makeDirectoryParam
         (
             data.directory ??
-            await directoryOptionPriority.get("")
+            await Config.directoryOptionPriority.get("")
             (
-                async () =>(defaultDirectory.get("") ?? getCurrentFolder()),
-                async () => await getProfileStartingDirectory(data.profile ?? defaultProfile.get(""))
+                async () =>(Config.defaultDirectory.get("") ?? getCurrentFolder()),
+                async () => await getProfileStartingDirectory(data.profile ?? Config.defaultProfile.get(""))
             )
         ),
     ]
@@ -227,7 +207,7 @@ export const activate = (context: vscode.ExtensionContext) => context.subscripti
                         })
                     ),
                     {
-                        placeHolder: Locale.map("selectProfile"),
+                        placeHolder: locale.map("selectProfile"),
                         matchOnDescription: true,
                         matchOnDetail: true,
                     }
@@ -242,27 +222,14 @@ export const activate = (context: vscode.ExtensionContext) => context.subscripti
     ),
     vscode.workspace.onDidChangeConfiguration
     (
-        event =>
+        async (event) =>
         {
-            [
-                settingsJsonPath,
-                defaultProfile,
-                directoryOptionPriority,
-                defaultDirectory,
-                defaultOptions,
-                statusBarAlignment,
-            ]
-            .map(i => i.onDidChangeConfiguration(event.affectsConfiguration));
             if
             (
-                [
-                    statusBarText,
-                    statusBarCommand,
-                ]
-                .map(i => i.onDidChangeConfiguration(event.affectsConfiguration))
-                .reduce((a, b) => a || b, true)
+                event.affectsConfiguration("windowsTerminal")
             )
             {
+                Config.root.entries.forEach(i => i.clear());
                 StatusBarItem.update();
             }
         }
