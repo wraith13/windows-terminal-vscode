@@ -101,8 +101,8 @@ module StatusBarItem
         statusBarItem.show();
     };
 }
-export const getStoreUri = () => vscode.Uri.parse ("https://www.microsoft.com/ja-jp/p/windows-terminal-preview/9n0dx20hk701");
-export const getDocumentUri = () => vscode.Uri.parse ("https://github.com/microsoft/terminal/tree/master/doc/user-docs");
+export const getStoreUri = () => vscode.Uri.parse("https://www.microsoft.com/p/windows-terminal/9n0dx20hk701");
+export const getDocumentUri = () => vscode.Uri.parse("https://github.com/microsoft/terminal/tree/master/doc/user-docs");
 export const getSettingsJsonPath = async () =>
 {
     const config = Config.settingsJsonPath.get("");
