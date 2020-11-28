@@ -133,6 +133,11 @@
                             "windowsTerminal.openProfile",
                             "windowsTerminal.openSettings"
                         ],
+                        "enumDescriptions": [
+                            "%windowsTerminal.open.title%",
+                            "%windowsTerminal.openProfile.title%",
+                            "%windowsTerminal.openSettings.title%"
+                        ],
                         "default": "windowsTerminal.open",
                         "description": "%windowsTerminal.statusBarCommand.description%"
                     }
