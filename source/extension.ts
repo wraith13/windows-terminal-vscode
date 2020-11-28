@@ -92,6 +92,7 @@ module StatusBarItem
         text: Config.statusBarText.get(""),
         command: Config.statusBarCommand.getKey(""),
         tooltip: Config.statusBarCommand.get(""),
+        withShow: null !== Config.statusBarAlignment.get(""),
     });
     export const update = (): void =>
     {
