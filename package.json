@@ -75,7 +75,8 @@
                             "null"
                         ],
                         "default": null,
-                        "description": "%windowsTerminal.settingsJsonPath.description%"
+                        "description": "%windowsTerminal.settingsJsonPath.description%",
+                        "scope": "window"
                     },
                     "windowsTerminal.defaultProfile": {
                         "type": [
@@ -83,7 +84,8 @@
                             "null"
                         ],
                         "default": null,
-                        "description": "%windowsTerminal.defaultProfile.description%"
+                        "description": "%windowsTerminal.defaultProfile.description%",
+                        "scope": "window"
                     },
                     "windowsTerminal.directoryOptionPriority": {
                         "type": "string",
@@ -93,7 +95,8 @@
                             "Prioritize VS Code's settings"
                         ],
                         "default": "Prioritize Windows Terminal's settings",
-                        "description": "%windowsTerminal.directoryOptionPriority.description%"
+                        "description": "%windowsTerminal.directoryOptionPriority.description%",
+                        "scope": "window"
                     },
                     "windowsTerminal.defaultDirectory": {
                         "type": [
@@ -101,7 +104,8 @@
                             "null"
                         ],
                         "default": null,
-                        "description": "%windowsTerminal.defaultDirectory.description%"
+                        "description": "%windowsTerminal.defaultDirectory.description%",
+                        "scope": "window"
                     },
                     "windowsTerminal.defaultOptions": {
                         "type": [
@@ -109,7 +113,8 @@
                             "null"
                         ],
                         "default": null,
-                        "description": "%windowsTerminal.defaultOptions.description%"
+                        "description": "%windowsTerminal.defaultOptions.description%",
+                        "scope": "window"
                     },
                     "windowsTerminal.statusBarAlignment": {
                         "type": "string",
@@ -119,12 +124,14 @@
                             "right"
                         ],
                         "default": "left",
-                        "description": "%windowsTerminal.statusBarAlignment.description%"
+                        "description": "%windowsTerminal.statusBarAlignment.description%",
+                        "scope": "window"
                     },
                     "windowsTerminal.statusBarText": {
                         "type": "string",
                         "default": "$(terminal)",
-                        "description": "%windowsTerminal.statusBarText.description%"
+                        "description": "%windowsTerminal.statusBarText.description%",
+                        "scope": "window"
                     },
                     "windowsTerminal.statusBarCommand": {
                         "type": "string",
@@ -139,7 +146,8 @@
                             "%windowsTerminal.openSettings.title%"
                         ],
                         "default": "windowsTerminal.open",
-                        "description": "%windowsTerminal.statusBarCommand.description%"
+                        "description": "%windowsTerminal.statusBarCommand.description%",
+                        "scope": "window"
                     }
                 }
             }
