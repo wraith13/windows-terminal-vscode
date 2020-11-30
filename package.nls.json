@@ -4,6 +4,7 @@
     "windowsTerminal.open.title": "Open",
     "windowsTerminal.openProfile.title": "Open with Profile ...",
     "windowsTerminal.openSettings.title": "Open settings.json",
+    "windowsTerminal.debug.description": "Debug mode.",
     "windowsTerminal.settingsJsonPath.description": "Path of Windows Terminal's settings.json.",
     "windowsTerminal.defaultProfile.description": "GUID of default profile.",
     "windowsTerminal.directoryOptionPriority.description": "Directory option priority.",

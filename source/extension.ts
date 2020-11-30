@@ -39,6 +39,7 @@ const directoryOptionPriorityObject = Object.freeze
 module Config
 {
     export const root = vscel.config.makeRoot(packageJson);
+    export const debug = root.makeEntry<boolean>("windowsTerminal.debug");
     export const statusBarText = root.makeEntry<string>("windowsTerminal.statusBarText");
     export const statusBarAlignment = root.makeMapEntry("windowsTerminal.statusBarAlignment", statusBarAlignmentObject);
     export const statusBarCommand = root.makeMapEntry("windowsTerminal.statusBarCommand", statusBarCommandObject);
@@ -47,7 +48,15 @@ module Config
     export const directoryOptionPriority = root.makeMapEntry("windowsTerminal.directoryOptionPriority", directoryOptionPriorityObject);
     export const defaultDirectory = root.makeEntry<string>("windowsTerminal.defaultDirectory");
     export const defaultOptions = root.makeEntry<string>("windowsTerminal.defaultOptions");
+}
+const debug = <T>(output: T): T =>
+{
+    if (Config.debug.get(""))
+    {
+        console.debug(output);
     }
+    return output;
+};
 interface SettingsJson
 {
     "$schema": string;
@@ -153,21 +162,24 @@ async (
     = { }
 ) => child_process.exec
 (
-    [
-        "wt",
-        Config.defaultOptions.get("") ?? "",
-        makeProfileParam(data.profile ?? Config.defaultProfile.get("")),
-        makeDirectoryParam
-        (
-            data.directory ??
-            await Config.directoryOptionPriority.get("")
+    debug
+    (
+        [
+            "wt",
+            Config.defaultOptions.get("") ?? "",
+            makeProfileParam(data.profile ?? Config.defaultProfile.get("")),
+            makeDirectoryParam
             (
-                async () =>(Config.defaultDirectory.get("") ?? getCurrentFolder()),
-                async () => await getProfileStartingDirectory(data.profile ?? Config.defaultProfile.get(""))
-            )
-        ),
-    ]
-    .join("")
+                data.directory ??
+                await Config.directoryOptionPriority.get("")
+                (
+                    async () =>(Config.defaultDirectory.get("") ?? getCurrentFolder()),
+                    async () => await getProfileStartingDirectory(data.profile ?? Config.defaultProfile.get(""))
+                )
+            ),
+        ]
+        .join("")
+    )
 );
 export const activate = (context: vscode.ExtensionContext) => context.subscriptions.push
 (

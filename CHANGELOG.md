@@ -4,6 +4,12 @@ All notable changes to the "windows-terminal" extension will be documented in th
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 2.?.? - 2020-12-??
+
+### Added
+
+- Added `windowsTerminal.debug` setting item.
+
 ## 2.0.1 - 2020-11-29
 
 ### Added
@@ -19,11 +25,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### Added
 
-- `windowsTerminal.directoryOptionPriority` setting.
+- Added `windowsTerminal.directoryOptionPriority` setting item.
 
 ### Removed
 
-- `windowsTerminal.enabledDirectoryOption` setting.
+- Added `windowsTerminal.enabledDirectoryOption` setting item.
 
 ### Fixed
 

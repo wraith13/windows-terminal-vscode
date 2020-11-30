@@ -4,6 +4,7 @@
     "windowsTerminal.open.title": "開く",
     "windowsTerminal.openProfile.title": "プロファイルを指定して開く ...",
     "windowsTerminal.openSettings.title": "settings.json を開く",
+    "windowsTerminal.debug.description": "デバッグモード。",
     "windowsTerminal.settingsJsonPath.description": "Windows Terminal の settings.json のパス。",
     "windowsTerminal.defaultProfile.description": "デフォルトで使用するプロファイルのGUID。",
     "windowsTerminal.directoryOptionPriority.description": "ディレクトリオプションの優先度。",

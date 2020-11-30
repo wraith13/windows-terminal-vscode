@@ -69,6 +69,12 @@
             {
                 "title": "Windows Terminal",
                 "properties": {
+                    "windowsTerminal.debug": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "%windowsTerminal.debug.description%",
+                        "scope": "window"
+                    },
                     "windowsTerminal.settingsJsonPath": {
                         "type": [
                             "string",
