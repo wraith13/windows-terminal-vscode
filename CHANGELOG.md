@@ -10,6 +10,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Added `windowsTerminal.debug` setting item.
 
+### Fixed
+
+- Fixed an issue that did not work for directories with spaces in the path.
+
 ## 2.0.1 - 2020-11-29
 
 ### Added

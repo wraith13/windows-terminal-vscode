@@ -151,7 +151,7 @@ export const getProfileStartingDirectory = async (profile: string | null) =>
         .filter (i => i.guid === profile) [ 0 ] ?. startingDirectory ?? null;
 };
 export const makeProfileParam = (profile: string | null) => profile ? ` -p ${ profile }`: "";
-export const makeDirectoryParam = (directory: string | null) => directory ? ` -d ${ directory }`: "";
+export const makeDirectoryParam = (directory: string | null) => directory ? ` -d \"${ directory }\"`: "";
 export const executeWindowsTerminal =
 async (
     data:
