@@ -49,6 +49,7 @@ Enjoy!
 
 This extension contributes the following settings by [`settings.json`](https://code.visualstudio.com/docs/customization/userandworkspace#_creating-user-and-workspace-settings)( Mac: <kbd>Command</kbd>+<kbd>,</kbd>, Windows / Linux: <kbd>File</kbd> -> <kbd>Preferences</kbd> -> <kbd>User Settings</kbd> ):
 
+* `windowsTerminal.debug`: Debug mode.
 * `windowsTerminal.settingsJsonPath`: Path of Windows Terminal's settings.json.
 * `windowsTerminal.defaultProfile`: GUID of default profile.
 * `windowsTerminal.directoryOptionPriority`: Directory option priority.
