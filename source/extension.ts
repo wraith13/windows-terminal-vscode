@@ -45,7 +45,7 @@ module Config
     export const statusBarCommand = root.makeMapEntry("windowsTerminal.statusBarCommand", "root-workspace", statusBarCommandObject);
     export const settingsJsonPath = root.makeEntry<string>("windowsTerminal.settingsJsonPath", "active-workspace");
     export const defaultProfile = root.makeEntry<string>("windowsTerminal.defaultProfile", "active-workspace");
-    export const directoryOptionPriority = root.makeMapEntry("windowsTerminal.directoryOptionPriority", "active-workspace" directoryOptionPriorityObject);
+    export const directoryOptionPriority = root.makeMapEntry("windowsTerminal.directoryOptionPriority", "active-workspace", directoryOptionPriorityObject);
     export const defaultDirectory = root.makeEntry<string>("windowsTerminal.defaultDirectory", "active-workspace");
     export const defaultOptions = root.makeEntry<string>("windowsTerminal.defaultOptions", "active-workspace");
 }
