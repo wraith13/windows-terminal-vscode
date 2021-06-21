@@ -39,19 +39,19 @@ const directoryOptionPriorityObject = Object.freeze
 module Config
 {
     export const root = vscel.config.makeRoot(packageJson);
-    export const debug = root.makeEntry<boolean>("windowsTerminal.debug");
-    export const statusBarText = root.makeEntry<string>("windowsTerminal.statusBarText");
-    export const statusBarAlignment = root.makeMapEntry("windowsTerminal.statusBarAlignment", statusBarAlignmentObject);
-    export const statusBarCommand = root.makeMapEntry("windowsTerminal.statusBarCommand", statusBarCommandObject);
-    export const settingsJsonPath = root.makeEntry<string>("windowsTerminal.settingsJsonPath");
-    export const defaultProfile = root.makeEntry<string>("windowsTerminal.defaultProfile");
-    export const directoryOptionPriority = root.makeMapEntry("windowsTerminal.directoryOptionPriority", directoryOptionPriorityObject);
-    export const defaultDirectory = root.makeEntry<string>("windowsTerminal.defaultDirectory");
-    export const defaultOptions = root.makeEntry<string>("windowsTerminal.defaultOptions");
+    export const debug = root.makeEntry<boolean>("windowsTerminal.debug", "active-workspace");
+    export const statusBarText = root.makeEntry<string>("windowsTerminal.statusBarText", "root-workspace");
+    export const statusBarAlignment = root.makeMapEntry("windowsTerminal.statusBarAlignment", "root-workspace", statusBarAlignmentObject);
+    export const statusBarCommand = root.makeMapEntry("windowsTerminal.statusBarCommand", "root-workspace", statusBarCommandObject);
+    export const settingsJsonPath = root.makeEntry<string>("windowsTerminal.settingsJsonPath", "active-workspace");
+    export const defaultProfile = root.makeEntry<string>("windowsTerminal.defaultProfile", "active-workspace");
+    export const directoryOptionPriority = root.makeMapEntry("windowsTerminal.directoryOptionPriority", "active-workspace" directoryOptionPriorityObject);
+    export const defaultDirectory = root.makeEntry<string>("windowsTerminal.defaultDirectory", "active-workspace");
+    export const defaultOptions = root.makeEntry<string>("windowsTerminal.defaultOptions", "active-workspace");
 }
 const debug = <T>(output: T): T =>
 {
-    if (Config.debug.get(""))
+    if (Config.debug.get("default-scope"))
     {
         console.debug(output);
     }
@@ -97,17 +97,17 @@ module StatusBarItem
     let statusBarItem: vscode.StatusBarItem;
     export const make = () => statusBarItem = vscel.statusbar.createItem
     ({
-        alignment: Config.statusBarAlignment.get(""),
-        text: Config.statusBarText.get(""),
-        command: Config.statusBarCommand.getKey(""),
-        tooltip: Config.statusBarCommand.get(""),
-        withShow: null !== Config.statusBarAlignment.get(""),
+        alignment: Config.statusBarAlignment.get("default-scope"),
+        text: Config.statusBarText.get("default-scope"),
+        command: Config.statusBarCommand.getKey("default-scope"),
+        tooltip: Config.statusBarCommand.get("default-scope"),
+        withShow: null !== Config.statusBarAlignment.get("default-scope"),
     });
     export const update = (): void =>
     {
-        statusBarItem.text = Config.statusBarText.get("");
-        statusBarItem.command = Config.statusBarCommand.getKey("");
-        statusBarItem.tooltip = Config.statusBarCommand.get("");
+        statusBarItem.text = Config.statusBarText.get("default-scope");
+        statusBarItem.command = Config.statusBarCommand.getKey("default-scope");
+        statusBarItem.tooltip = Config.statusBarCommand.get("default-scope");
         statusBarItem.show();
     };
 }
@@ -115,7 +115,7 @@ export const getStoreUri = () => vscode.Uri.parse("https://www.microsoft.com/p/w
 export const getDocumentUri = () => vscode.Uri.parse("https://github.com/microsoft/terminal/tree/master/doc/user-docs");
 export const getSettingsJsonPath = async () =>
 {
-    const config = Config.settingsJsonPath.get("");
+    const config = Config.settingsJsonPath.get("default-scope");
     if (null !== config && "" !== config)
     {
         return config;
@@ -166,15 +166,15 @@ async (
     (
         [
             "wt",
-            Config.defaultOptions.get("") ?? "",
-            makeProfileParam(data.profile ?? Config.defaultProfile.get("")),
+            Config.defaultOptions.get("default-scope") ?? "",
+            makeProfileParam(data.profile ?? Config.defaultProfile.get("default-scope")),
             makeDirectoryParam
             (
                 data.directory ??
-                await Config.directoryOptionPriority.get("")
+                await Config.directoryOptionPriority.get("default-scope")
                 (
-                    async () =>(Config.defaultDirectory.get("") ?? getCurrentFolder()),
-                    async () => await getProfileStartingDirectory(data.profile ?? Config.defaultProfile.get(""))
+                    async () =>(Config.defaultDirectory.get("default-scope") ?? getCurrentFolder()),
+                    async () => await getProfileStartingDirectory(data.profile ?? Config.defaultProfile.get("default-scope"))
                 )
             ),
         ]
@@ -242,7 +242,7 @@ export const activate = (context: vscode.ExtensionContext) => context.subscripti
                 event.affectsConfiguration("windowsTerminal")
             )
             {
-                Config.root.entries.forEach(i => i.clear());
+                // Config.root.entries.forEach(i => i.clear());
                 StatusBarItem.update();
             }
         }

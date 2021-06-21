@@ -6,6 +6,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## 2.1.1 - 2021-??-??
 
+### Changed
+
+- Updated internal package.
+
 ### Security
 
 - npm audit fix
